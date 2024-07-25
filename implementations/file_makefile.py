@@ -10,6 +10,9 @@ import json
 class FileMakefile(IFile):
     def __init__(self, input_filename: str, folder_to_work_in: str):
         super().__init__(input_filename, folder_to_work_in)
+        self.map_of_data = None
+        self.sources = None
+        self.original_content = None
         self.load_makefile()
 
     def load_makefile(self):

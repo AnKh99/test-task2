@@ -45,7 +45,7 @@ def magic_binary_shuffler(indexes: list, file_interactor: IFile, blackbox: IBlac
         return indexes
     current_depth = 0
 
-    print()
+    # print()
     # print("current indexes: ", indexes)
 
     queue = [indexes]
@@ -63,9 +63,9 @@ def magic_binary_shuffler(indexes: list, file_interactor: IFile, blackbox: IBlac
         S1S2_combined = rearrange_sublist_in_beginning(current_list_of_indexes_to_test, indexes)
         to_be_tested_indexes = fill_up_to_global_blackbox_size(S1S2_combined, file_interactor.get_original_size())
 
-        print("current pop from the queue: ", current_list_of_indexes_to_test)
-        print("S1S2_combined: ", S1S2_combined)
-        print("indexes that will be tested: ", to_be_tested_indexes)
+        # print("current pop from the queue: ", current_list_of_indexes_to_test)
+        # print("S1S2_combined: ", S1S2_combined)
+        # print("indexes that will be tested: ", to_be_tested_indexes)
 
         # if to_be_tested_indexes[0] in already_tried_first_indexes and len(already_tried_first_indexes) > 1:
         #     sub_lists = get_sublists(current_list_of_indexes_to_test, 4)
@@ -73,12 +73,12 @@ def magic_binary_shuffler(indexes: list, file_interactor: IFile, blackbox: IBlac
         #     continue
 
         created_test_file = file_interactor.create_file(to_be_tested_indexes)
-        print("Created test file: ", created_test_file)
+        # print("Created test file: ", created_test_file)
         if not previous_result:
             new_result = previous_result = blackbox.get_return_code(created_test_file)
         else:
             new_result = blackbox.get_return_code(created_test_file)
-        print("new_result previous result: ", new_result, ', ', previous_result)
+        # print("new_result previous result: ", new_result, ', ', previous_result)
         if new_result == previous_result:
             # Splitting the list_of_indexes_to_test into 4 pieces
             sub_lists = get_sublists(current_list_of_indexes_to_test, 4)
@@ -91,19 +91,19 @@ def magic_binary_shuffler(indexes: list, file_interactor: IFile, blackbox: IBlac
             S2_narrowed_down = current_list_of_indexes_to_test
             S1_narrowed_down = list(set(S1S2_combined) - set(S2_narrowed_down))
             S1_len = len(S1_narrowed_down)
-            print("S1 narrowed down: ", S1_narrowed_down)
-            print("S1_len: ", S1_len)
-            print("S2 narrowed down: ", S2_narrowed_down)
+            # print("S1 narrowed down: ", S1_narrowed_down)
+            # print("S1_len: ", S1_len)
+            # print("S2 narrowed down: ", S2_narrowed_down)
 
             BS_depth = 0
             while new_result == previous_result and BS_depth < max_depth:
                 BS_depth += 1
                 offset = S1_len - S1_len // (2 ** BS_depth)
-                print("offset: ", offset)
+                # print("offset: ", offset)
                 new_list_to_test = S1_narrowed_down[:offset] + S2_narrowed_down + S1_narrowed_down[offset:]
                 new_list_to_test = fill_up_to_global_blackbox_size(new_list_to_test,
                                                                    file_interactor.get_original_size())
-                print("new_list_to_test: ", new_list_to_test)
+                # print("new_list_to_test: ", new_list_to_test)
                 new_file = file_interactor.create_file(new_list_to_test)
                 new_result = blackbox.get_return_code(new_file)
             if BS_depth >= max_depth:
@@ -114,10 +114,10 @@ def magic_binary_shuffler(indexes: list, file_interactor: IFile, blackbox: IBlac
             # S1 is in the [0, 1, S1, 3] -> start again with [0, 1, S1, 3, S2, 9]
             pre_last_offset = S1_len - S1_len // (2 ** (BS_depth - 1))
             last = S1_len - S1_len // (2 ** BS_depth)
-            print("pre_last_offset: ", pre_last_offset)
-            print("last offset: ", last)
-            print(
-                f"\nABOUT TO CALL MAGIC BINARY SHUFFLER AGAIN WITH : {S1_narrowed_down[pre_last_offset: last] + S2_narrowed_down}\n\n\n\n")
+            # print("pre_last_offset: ", pre_last_offset)
+            # print("last offset: ", last)
+            # print(
+            #     f"\nABOUT TO CALL MAGIC BINARY SHUFFLER AGAIN WITH : {S1_narrowed_down[pre_last_offset: last] + S2_narrowed_down}\n\n\n\n")
             return magic_binary_shuffler(S1_narrowed_down[pre_last_offset: last] + S2_narrowed_down, file_interactor,
                                          blackbox, max_depth)
     current_depth += 1

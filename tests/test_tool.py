@@ -8,6 +8,7 @@ from implementations.file_json import FileJSON
 from implementations.blackbox_makefile import BlackboxMakefile
 from implementations.file_makefile import FileMakefile
 
+
 def create_test_jsons(workdir: str):
     # Creating 5 tests for 1000 and 5 for 10000 elements
     testsets_1000: list[list] = [list(range(1000)) for _ in range(5)]
@@ -19,8 +20,10 @@ def create_test_jsons(workdir: str):
     # 2: S1=1, S2=999
     # 3: S1=500, S2=600
     # 4: S1=550, S2=750
-    testsets_1000[0][1] = testsets_1000[1][1] = testsets_1000[2][1] = testsets_1000[3][500] = testsets_1000[4][550] = "S1"
-    testsets_1000[0][2] = testsets_1000[1][500] = testsets_1000[2][999] = testsets_1000[3][600] = testsets_1000[4][750] = "S2"
+    testsets_1000[0][1] = testsets_1000[1][1] = testsets_1000[2][1] = testsets_1000[3][500] = testsets_1000[4][
+        550] = "S1"
+    testsets_1000[0][2] = testsets_1000[1][500] = testsets_1000[2][999] = testsets_1000[3][600] = testsets_1000[4][
+        750] = "S2"
 
     # 10000 elements 5 times.
     # 0: S1=1, S2=1000
@@ -28,8 +31,10 @@ def create_test_jsons(workdir: str):
     # 2: S1=1, S2=9999
     # 3: S1=5000, S2=6000
     # 4: S1=7000, S2=7575
-    testsets_10000[0][1] = testsets_10000[1][1] = testsets_10000[2][1] = testsets_10000[3][5000] = testsets_10000[4][7000] = "S1"
-    testsets_10000[0][1000] = testsets_10000[1][5000] = testsets_10000[2][9999] = testsets_10000[3][6000] = testsets_10000[4][7575] = "S2"
+    testsets_10000[0][1] = testsets_10000[1][1] = testsets_10000[2][1] = testsets_10000[3][5000] = testsets_10000[4][
+        7000] = "S1"
+    testsets_10000[0][1000] = testsets_10000[1][5000] = testsets_10000[2][9999] = testsets_10000[3][6000] = \
+        testsets_10000[4][7575] = "S2"
 
     print("Creating files: ")
     for i in range(5):
@@ -116,13 +121,15 @@ def testing_blackbox_s1_s2_and_file_json(workdir: str):
     print("Removing ", reversed_filename)
     os.remove(reversed_filename)
 
+
 def testing_blackbox_makefile_and_file_makefile(workdir: str):
     print("Creating BlackboxMakefile()")
     output_folder = 'generated_makefiles'
     blackbox = BlackboxMakefile()
     for i in range(5):
         print(f"Asserting whether return_code from test_makefile_1k_{i}.am is true(1)")
-        assert (blackbox.get_return_code(os.path.abspath(os.path.join(os.curdir, output_folder, f'test_makefile_1k_{i}.am'))))
+        assert (blackbox.get_return_code(
+            os.path.abspath(os.path.join(os.curdir, output_folder, f'test_makefile_1k_{i}.am'))))
     print("Assertions passed!")
 
     original = FileMakefile("test_makefile_1k_0.am", output_folder)
@@ -135,10 +142,12 @@ def testing_blackbox_makefile_and_file_makefile(workdir: str):
     print("Removing ", reversed_filename)
     os.remove(reversed_filename)
 
+
 def read_makefile(filepath):
     with open(filepath, 'r') as file:
         content = file.read()
     return content
+
 
 def extract_sources(content):
     # Get libmlsimplus_la_SOURCES value
@@ -151,14 +160,16 @@ def extract_sources(content):
     else:
         raise ValueError("libmlsimplus_la_SOURCES not found in Makefile")
 
+
 def stretch_array(original_array: list[int], new_length: int) -> list[int]:
     stretched_array = []
     original_length = len(original_array)
-    
+
     for i in range(new_length):
         stretched_array.append(original_array[i % original_length])
-    
+
     return stretched_array
+
 
 def update_makefile(content, new_sources):
     # Replace libmlsimplus_la_SOURCES with new content
@@ -171,9 +182,11 @@ def update_makefile(content, new_sources):
     )
     return updated_content
 
+
 def write_makefile(filepath, content):
     with open(filepath, 'w') as file:
         file.write(content)
+
 
 def create_test_makefiles(workdir: str):
     original_makefile_path = 'tests/makefile_test.am'
@@ -193,8 +206,10 @@ def create_test_makefiles(workdir: str):
     # 2: S1=1, S2=999
     # 3: S1=500, S2=600
     # 4: S1=550, S2=750
-    testsets_1000[0][1] = testsets_1000[1][1] = testsets_1000[2][1] = testsets_1000[3][500] = testsets_1000[4][550] = "./S1.cpp"
-    testsets_1000[0][2] = testsets_1000[1][500] = testsets_1000[2][999] = testsets_1000[3][600] = testsets_1000[4][750] = "./S2.cpp"
+    testsets_1000[0][1] = testsets_1000[1][1] = testsets_1000[2][1] = testsets_1000[3][500] = testsets_1000[4][
+        550] = "./S1.cpp"
+    testsets_1000[0][2] = testsets_1000[1][500] = testsets_1000[2][999] = testsets_1000[3][600] = testsets_1000[4][
+        750] = "./S2.cpp"
 
     # 10000 elements 5 times.
     # 0: S1=1, S2=1000
@@ -202,8 +217,10 @@ def create_test_makefiles(workdir: str):
     # 2: S1=1, S2=9999
     # 3: S1=5000, S2=6000
     # 4: S1=7000, S2=7575
-    testsets_10000[0][1] = testsets_10000[1][1] = testsets_10000[2][1] = testsets_10000[3][5000] = testsets_10000[4][7000] = "./S1.cpp"
-    testsets_10000[0][1000] = testsets_10000[1][5000] = testsets_10000[2][9999] = testsets_10000[3][6000] = testsets_10000[4][7575] = "./S2.cpp"
+    testsets_10000[0][1] = testsets_10000[1][1] = testsets_10000[2][1] = testsets_10000[3][5000] = testsets_10000[4][
+        7000] = "./S1.cpp"
+    testsets_10000[0][1000] = testsets_10000[1][5000] = testsets_10000[2][9999] = testsets_10000[3][6000] = \
+        testsets_10000[4][7575] = "./S2.cpp"
 
     print("Creating files: ")
 
@@ -219,6 +236,7 @@ def create_test_makefiles(workdir: str):
 
     print("Files were created.")
 
+
 def clean_test_makefiles(workdir: str):
     output_folder = 'generated_makefiles'
     print("Removing files: ")
@@ -231,6 +249,7 @@ def clean_test_makefiles(workdir: str):
         os.rmdir(output_folder)
 
     print("Files were removed.")
+
 
 def test_file_makefile(workdir: str):
     print("Creating Makefile objects from test_makefile_1k_0.am and test_makefile_10k_0.am")
@@ -268,6 +287,7 @@ def test_file_makefile(workdir: str):
 
     print("Removing ", outfile_1000)
     os.remove(outfile_1000)
+
 
 def run_tests(workdir: str):
     # create_test_jsons(workdir)

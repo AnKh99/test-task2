@@ -1,2 +1,4 @@
 import implementations.blackbox_s1s2
 import implementations.file_json
+import implementations.blackbox_makefile
+import implementations.file_makefile
