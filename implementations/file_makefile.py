@@ -3,7 +3,6 @@ import re
 from os import path
 
 from interfaces.i_file import IFile
-import json
 
 
 # Expects a MAKEFILE

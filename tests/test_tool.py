@@ -1,7 +1,6 @@
 import json
 import os
 import re
-import random
 
 from implementations.blackbox_s1s2 import BlackboxS1S2
 from implementations.file_json import FileJSON
@@ -124,15 +123,14 @@ def testing_blackbox_s1_s2_and_file_json(workdir: str):
 
 def testing_blackbox_makefile_and_file_makefile(workdir: str):
     print("Creating BlackboxMakefile()")
-    output_folder = 'generated_makefiles'
     blackbox = BlackboxMakefile()
     for i in range(5):
         print(f"Asserting whether return_code from test_makefile_1k_{i}.am is true(1)")
         assert (blackbox.get_return_code(
-            os.path.abspath(os.path.join(os.curdir, output_folder, f'test_makefile_1k_{i}.am'))))
+            os.path.abspath(os.path.join(os.curdir, workdir, f'test_makefile_1k_{i}.am'))))
     print("Assertions passed!")
 
-    original = FileMakefile("test_makefile_1k_0.am", output_folder)
+    original = FileMakefile("test_makefile_1k_0.am", workdir)
     reversed_filename = original.create_file(list(range(999, -1, -1)))
     print("\nCreating reversed ", reversed_filename, " to check for reversed S1 and S2 !with blackbox!")
 
@@ -190,8 +188,7 @@ def write_makefile(filepath, content):
 
 def create_test_makefiles(workdir: str):
     original_makefile_path = 'tests/makefile_test.am'
-    output_folder = 'generated_makefiles'
-    os.makedirs(output_folder, exist_ok=True)
+    os.makedirs(workdir, exist_ok=True)
 
     content = read_makefile(original_makefile_path)
     sources = extract_sources(content)
@@ -226,11 +223,11 @@ def create_test_makefiles(workdir: str):
 
     # Save Makefiles
     for i in range(5):
-        output_path = os.path.join(output_folder, f'test_makefile_1k_{i}.am')
+        output_path = os.path.join(workdir, f'test_makefile_1k_{i}.am')
         write_makefile(output_path, update_makefile(content, testsets_1000[i]))
         print(output_path)
 
-        output_path = os.path.join(output_folder, f'test_makefile_10k_{i}.am')
+        output_path = os.path.join(workdir, f'test_makefile_10k_{i}.am')
         write_makefile(output_path, update_makefile(content, testsets_10000[i]))
         print(output_path)
 
@@ -238,15 +235,14 @@ def create_test_makefiles(workdir: str):
 
 
 def clean_test_makefiles(workdir: str):
-    output_folder = 'generated_makefiles'
     print("Removing files: ")
     for i in range(5):
-        os.remove(f"{output_folder}/test_makefile_1k_{i}.am")
-        print(f"{output_folder}/test_makefile_1k_{i}.am")
-        os.remove(f"{output_folder}/test_makefile_10k_{i}.am")
-        print(f"{output_folder}/test_makefile_10k_{i}.am")
-    if os.path.exists(output_folder) and os.path.isdir(output_folder):
-        os.rmdir(output_folder)
+        os.remove(f"{workdir}/test_makefile_1k_{i}.am")
+        print(f"{workdir}/test_makefile_1k_{i}.am")
+        os.remove(f"{workdir}/test_makefile_10k_{i}.am")
+        print(f"{workdir}/test_makefile_10k_{i}.am")
+    # if os.path.exists(workdir) and os.path.isdir(workdir):
+    #     os.rmdir(workdir)
 
     print("Files were removed.")
 
@@ -254,10 +250,8 @@ def clean_test_makefiles(workdir: str):
 def test_file_makefile(workdir: str):
     print("Creating Makefile objects from test_makefile_1k_0.am and test_makefile_10k_0.am")
 
-    output_folder = 'generated_makefiles'
-
-    json_file_1000_0 = FileMakefile('test_makefile_1k_0.am', output_folder)
-    json_file_10000_0 = FileMakefile('test_makefile_10k_0.am', output_folder)
+    json_file_1000_0 = FileMakefile('test_makefile_1k_0.am', workdir)
+    json_file_10000_0 = FileMakefile('test_makefile_10k_0.am', workdir)
     outfile_1000 = json_file_1000_0.create_file(list(range(1000)))
     outfile_10000 = json_file_10000_0.create_file(list(range(10000)))
     print(f"Created {outfile_1000}\n and {outfile_10000} with create_file functionality")

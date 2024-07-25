@@ -1,5 +1,4 @@
 from interfaces.i_blackbox import IBlackBox
-import json
 import os
 
 
