@@ -284,13 +284,13 @@ def test_file_makefile(workdir: str):
 
 
 def run_tests(workdir: str):
-    # create_test_jsons(workdir)
+    create_test_jsons(workdir)
 
-    # test_file_json(workdir)
+    test_file_json(workdir)
 
-    # testing_blackbox_s1_s2_and_file_json(workdir)
+    testing_blackbox_s1_s2_and_file_json(workdir)
 
-    # clean_test_jsons(workdir)
+    clean_test_jsons(workdir)
 
     create_test_makefiles(workdir)
 
