@@ -4,8 +4,6 @@ from implementations.file_makefile import FileMakefile
 from implementations.blackbox_makefile import BlackboxMakefile
 from implementations.blackbox_s1s2 import BlackboxS1S2
 
-import glob
-import os
 import argparse
 
 
