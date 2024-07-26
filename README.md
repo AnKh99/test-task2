@@ -93,6 +93,16 @@ after that only main.py needs to be changed.
 
 `python3 run_tests.py`
 
+Running main.py:
+```sh
+python3 main.py  --mode json --initial_filename initial_big_data.json --work_folder files --s1_key S1 --s2_key S2 --cleanup
+```
+
+or
+```sh
+python3 main.py  --mode json --initial_filename initial_big_data.json --work_folder files --s1_key S1 --s2_key S2 --cleanup --blackbox_path check.sh
+```
+
 !!!! Running main.py is slow due to the printouts! Forward it into some file for better results!\
 `python3 main.py > output.txt && tail -n5 output.txt`
 

@@ -9,16 +9,14 @@ class BlackboxS1S2(IBlackBox):
 
         self.counter += 1
 
-        first_key = "S1"
-        second_key = "S2"
         found_first_key = False
 
         return_flag = False
         with open(absolute_path_to_file, 'r') as input_file:
             for el in json.load(input_file):
-                if el == first_key:
+                if el == self.s1_key:
                     found_first_key = True
-                elif el == second_key and found_first_key:
+                elif el == self.s2_key and found_first_key:
                     return_flag = True
 
         if self.cleanup:
