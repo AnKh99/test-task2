@@ -1,6 +1,3 @@
-import os
-
-
 # Blackbox algorithm that returns a specific code (0/1 are supported, others - unknown)
 class IBlackBox:
 
